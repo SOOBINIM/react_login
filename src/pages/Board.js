@@ -4,18 +4,24 @@ import Header from '../components/common/Header';
 import { bbs, boardId } from '../data'
 
 const BBS_HEADER = styled.div`
-    width: 100%;
     display: flex;
     align-items: center;
-    height: 80px;
-    padding: 1rem;
+    justify-content: center;
+    height: 50px;
     font-weight: bold;
+    background-color: #F4FFFF;
+
 
 `
 
 const BBS = styled.div`
     width: 100%;
     padding: 1rem;
+`
+
+const StledBoardName = styled.div`
+    padding: 0.5rem;
+    font-weight: bold;
 `
 
 const BBS_ITEM = styled.div`
@@ -46,8 +52,13 @@ const BBS_ITEM = styled.div`
 `
 
 const BBS_FOOTER = styled.footer`
- padding: 1rem;
+    display: flex;
     font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    background-color: #F4FFFF;
+    height: 50px;
+
 `
 
 
@@ -65,7 +76,7 @@ const Board = () => {
             <BBS_HEADER>
                 {header}
             </BBS_HEADER>
-            <h2>{tag} 게시판</h2>
+            <StledBoardName>{tag} 게시판</StledBoardName>
             <BBS>
                 {bbsArticles.filter((articleFilter) => articleFilter.key === tag).map((article, index) =>
                     <BBS_ITEM key={index}>
