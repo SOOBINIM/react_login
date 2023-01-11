@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import AuthTemplate from "./AuthTemplate";
+import useStore from "../store/auth";
 
 
 const StyledInput = styled.input`
@@ -40,9 +41,24 @@ const FOOTER = styled.div`
 
 
 const Login = () => {
-    const [id, setId] = useState("")
-    const [pw, setpw] = useState("")
     const navigate = useNavigate();
+    const { loginUser, setLoginUser, loginSuccess, setLoginSuccess } = useStore(state => state)
+
+
+    const [inputs, setInputs] = useState({
+        id: '',
+        pw: ''
+    });
+
+    const onChange = (e) => {
+        const { value, name } = e.target;
+        setInputs({
+            ...inputs,
+            [name]: value
+        })
+        // console.log(value)
+        // console.log(inputs.id)
+    }
 
     const onSubmit = (e) => {
         // id, pw 값 넘겨서 
@@ -51,17 +67,22 @@ const Login = () => {
         const dataUser = localStorage.getItem("userData")
         const parseDataUser = JSON.parse(dataUser) || []
 
-        if (parseDataUser.find(e => e.id === id && e.pw === pw)) {
-            alert("로그인 완료!")
-            localStorage.setItem("loginUser", JSON.stringify([{ "id": id, "pw": pw }]));
-            navigate("/");
+        if (parseDataUser.find(e => e.id === inputs.id && e.pw === inputs.pw)) {
+            console.log(inputs.id)
+            setLoginUser(inputs.id)
         }
         else {
-            alert("로그인 실패!")
+            alert("로그인 실패")
         }
-
-
     }
+
+    useEffect(() => {
+        if (loginUser) {
+            localStorage.setItem("loginUser", JSON.stringify(loginUser));
+            console.log("로그인 성공")
+            navigate("/");
+        }
+    }, [loginUser, navigate])
 
     return (
         <AuthTemplate>
@@ -71,10 +92,10 @@ const Login = () => {
                 </div>
                 <form onSubmit={onSubmit}>
                     <div>
-                        <StyledInput value={id || ''} placeholder="아이디" onChange={(e) => (setId(e.target.value))} />
+                        <StyledInput name="id" value={inputs.id || ''} placeholder="아이디" onChange={onChange} />
                     </div>
                     <div>
-                        <StyledInput value={pw || ''} type="password" placeholder="비밀번호" onChange={(e) => (setpw(e.target.value))} />
+                        <StyledInput name="pw" value={inputs.pw || ''} type="password" placeholder="비밀번호" onChange={onChange} />
                     </div>
                     <StyledButton type="submit">로그인</StyledButton>
                     <FOOTER>

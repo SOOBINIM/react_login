@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import useStore from "../../store/auth";
+
 
 const StyledHeader = styled.header`
     position: fixed;
@@ -67,27 +69,26 @@ const Space = styled.div`
 
 
 const Header = () => {
-    const [userName, setUsername] = useState("")
-    // const [type, setType] = useState("co")
     const navigate = useNavigate();
+    const { loginUser, setLoginUser } = useStore(state => state)
 
     useEffect(() => {
-        const loginUser = localStorage.getItem("loginUser")
-        if (loginUser) {
-            const parseLoginUser = JSON.parse(loginUser) || []
-            setUsername(Object.values(Object.values(parseLoginUser)[0])[0])
+        const localLoginUser = localStorage.getItem("loginUser")
+        const parseLoginUser = JSON.parse(localLoginUser) || []
+        if (localLoginUser) {
+            setLoginUser(parseLoginUser)
         }
         else {
             alert("로그인이 필요해요!")
             navigate("/login")
         }
-    }, [userName, navigate])
+    }, [loginUser])
+
 
     const logout = () => {
         localStorage.removeItem('loginUser')
-        setUsername("")
+        setLoginUser("")
     }
-
 
     return (
         <div>
@@ -102,7 +103,7 @@ const Header = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="nav_user_name">{userName}님 반갑습니다.
+                <div className="nav_user_name">{loginUser}님 반갑습니다.
                     <button onClick={logout}>로그아웃</button>
                 </div>
 
