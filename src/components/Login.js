@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import AuthTemplate from "./AuthTemplate";
 import useStore from "../store/auth";
-
+import shallow from 'zustand/shallow'
 
 const StyledInput = styled.input`
     border: none;
@@ -42,7 +42,7 @@ const FOOTER = styled.div`
 
 const Login = () => {
     const navigate = useNavigate();
-    const { loginUser, setLoginUser, loginSuccess, setLoginSuccess } = useStore(state => state)
+    const { loginUser, setLoginUser } = useStore(state => state, shallow)
 
 
     const [inputs, setInputs] = useState({

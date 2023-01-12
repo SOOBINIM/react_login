@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
@@ -70,7 +70,7 @@ const Space = styled.div`
 
 const Header = () => {
     const navigate = useNavigate();
-    const { loginUser, setLoginUser } = useStore(state => state)
+    const { loginUser, setLoginUser } = useStore(useCallback(state => state, []))
 
     useEffect(() => {
         const localLoginUser = localStorage.getItem("loginUser")
@@ -82,7 +82,7 @@ const Header = () => {
             alert("로그인이 필요해요!")
             navigate("/login")
         }
-    }, [loginUser])
+    }, [loginUser, navigate, setLoginUser])
 
 
     const logout = () => {
@@ -109,9 +109,6 @@ const Header = () => {
 
             </StyledHeader >
             <Space />
-
-            {/* <Board type="cosmic" /> */}
-            {/* <Board type="notice" /> */}
         </div >
     )
 }

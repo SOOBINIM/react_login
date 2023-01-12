@@ -16,6 +16,8 @@ const StlyedTemplateBlock = styled.div`
 
 
 const StlyedWhiteBox = styled.div`
+    width: 300px;
+    height: 400px;
     background-color: white;
     border-color: black;
     padding: 2rem;
