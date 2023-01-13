@@ -10,6 +10,7 @@ const StyledInput = styled.input`
     border: none;
     border-bottom: 1px solid black;
     padding-bottom: 1rem;
+    width: 100%;
     outline: none;
 `
 

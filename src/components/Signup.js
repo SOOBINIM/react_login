@@ -84,18 +84,17 @@ const Signup = () => {
         // string을 object 형태로 바꿔줌
         // 없으면 빈값을 넣기 
         const parseDataUser = JSON.parse(dataUser) || []
-        // console.log(`dataUser : ${dataUser} type : ${typeof (dataUser)}`)
-        // console.log(`parseDataUser : ${parseDataUser} type : ${typeof (parseDataUser)}`)
-        // if (parseDataUser.find(e => e.id === id)) {
-        // console.log(id)
-        parseDataUser.push({ id, pw })
-        localStorage.setItem("userData", JSON.stringify(parseDataUser))
-        alert("가입완료!")
-        navigate("/login");
-        // }
-        // else {
-        //     alert("있는 아이디 입니다.")
-        // }
+        if (isPw && isId && isPwCheck) {
+            parseDataUser.push({ id, pw })
+            localStorage.setItem("userData", JSON.stringify(parseDataUser))
+            alert("가입완료!")
+            navigate("/login");
+        } else {
+            alert("입력정보를 확인해주세요.")
+            setId("")
+            setPw("")
+            setPwCheck("")
+        }
     }
 
     const onChangeId = useCallback((e) => {
