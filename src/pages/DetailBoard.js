@@ -1,7 +1,9 @@
 import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import Header from '../components/common/Header';
-import { comments } from '../data'
+import useStoreData from "../store/data";
+import { useCallback } from "react";
+
 
 
 const StyledDetailBlock = styled.div`
@@ -42,6 +44,7 @@ const DetailBoard = () => {
     const location = useLocation();
     const article = location.state["article"]
     const boardComments = article["contents"]["commentKey"]
+    const { comments } = useStoreData(useCallback(state => state, []))
     const comment = comments[boardComments]
 
     return (

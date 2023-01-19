@@ -1,7 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/common/Header';
-import { bbs, boardId } from '../data'
+import useStoreData from '../store/data';
+import { useCallback } from 'react';
 
 const BBS_HEADER = styled.div`
     display: flex;
@@ -65,6 +66,8 @@ const BBS_FOOTER = styled.footer`
 const Board = () => {
     const params = useParams();
     const tag = params.tag
+
+    const { boardId, bbs } = useStoreData(useCallback(state => state, []))
 
     const header = boardId[params.tag].header
     const footer = boardId[params.tag].footer
